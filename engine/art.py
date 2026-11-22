@@ -6,7 +6,7 @@ hero slots and the small card slots.  A scene is a place, an actor and
 an action — never a lone glyph.
 """
 
-from . import colours as C
+from . import colours as C, words
 
 SKIN = (222, 184, 150)
 SKIN_D = (168, 122, 88)
@@ -109,9 +109,10 @@ def scene_cop31(draw, rect):
         y2 = cy + R * 0.97 * math.sin(math.radians(ang))
         draw.line([x1, y1, x2, y2], fill=C.INK, width=2)
     import math
-    # hands at three o'clock: the objections deadline
-    draw.line([cx, cy, cx + R * 0.78, cy], fill=C.RED, width=4)
-    draw.line([cx, cy, cx, cy - R * 0.55], fill=C.INK, width=4)
+    # hands at six o'clock exactly: the 06:00 GMT approval session —
+    # one time, labelled in the dek, no second reading possible
+    draw.line([cx, cy, cx, cy + R * 0.52], fill=C.RED, width=4)
+    draw.line([cx, cy, cx, cy - R * 0.78], fill=C.INK, width=4)
     draw.ellipse([cx - 4, cy - 4, cx + 4, cy + 4], fill=C.INK)
     # delegates seated along the table, waiting — drawn before the
     # table so the tabletop hides their legs and they read as seated
@@ -134,25 +135,35 @@ def scene_cop31(draw, rect):
 # ------------------------------------------------------------ Hong Kong
 def scene_hongkong(draw, rect):
     _box(draw, rect, 0, 0, 1, 1, fill=(232, 222, 204))
-    _box(draw, rect, 0, 0.78, 1, 1, fill=C.CONCRETE)
-    # polling-station banner board (blank red board, no lettering)
-    _box(draw, rect, 0.05, 0.06, 0.95, 0.24, fill=C.RED)
-    _box(draw, rect, 0.05, 0.06, 0.95, 0.24, outline=C.INK, width=2)
-    # ballot box
-    _box(draw, rect, 0.56, 0.52, 0.86, 0.92, fill=(240, 238, 232),
+    _box(draw, rect, 0, 0.80, 1, 1, fill=C.CONCRETE)
+    # polling-station banner, lettered so the scene reads without
+    # the headline: white bold capitals on the red board
+    _box(draw, rect, 0.04, 0.05, 0.96, 0.26, fill=C.RED)
+    _box(draw, rect, 0.04, 0.05, 0.96, 0.26, outline=C.INK, width=2)
+    size = max(9, int(rect[3] * 0.125))
+    fnt = words.font("sans", size, True)
+    label = "POLLING STATION"
+    tw = draw.textlength(label, font=fnt)
+    tx, ty = _r(rect, 0.5, 0.155)
+    draw.text((tx - tw / 2, ty - size / 2), label, font=fnt, fill=C.WHITE)
+    # ballot box, big in frame, slot on top, red seal on the front
+    _box(draw, rect, 0.58, 0.46, 0.92, 0.94, fill=(240, 238, 232),
          outline=C.INK, width=2)
-    _box(draw, rect, 0.60, 0.545, 0.82, 0.575, fill=C.INK)
-    _ellipse(draw, rect, 0.665, 0.68, 0.775, 0.84, fill=C.RED)
-    # voter slipping the ballot in
-    person(draw, rect, 0.40, 0.94, 0.52, shirt=C.TEAL, trousers=(44, 48, 60),
+    _box(draw, rect, 0.63, 0.49, 0.87, 0.525, fill=C.INK)
+    _ellipse(draw, rect, 0.695, 0.63, 0.815, 0.82, fill=C.RED)
+    _ellipse(draw, rect, 0.725, 0.685, 0.785, 0.765, fill=C.WHITE)
+    # voter slipping the ballot in, close to the box
+    person(draw, rect, 0.42, 0.96, 0.60, shirt=C.TEAL, trousers=(44, 48, 60),
            pose="vote")
-    # the ballot card in hand
-    _box(draw, rect, 0.475, 0.60, 0.545, 0.685, fill=C.WHITE, outline=C.INK)
-    # queue of voters behind
-    person(draw, rect, 0.16, 0.95, 0.46, shirt=(120, 84, 60),
+    # the ballot card in hand, angled toward the slot
+    _box(draw, rect, 0.50, 0.52, 0.575, 0.615, fill=C.WHITE, outline=C.INK)
+    # queue of voters behind, ballots in hand
+    person(draw, rect, 0.13, 0.96, 0.52, shirt=(120, 84, 60),
            trousers=(60, 60, 66), skin=SKIN_D)
-    person(draw, rect, 0.26, 0.95, 0.42, shirt=(70, 84, 120),
+    _box(draw, rect, 0.155, 0.66, 0.20, 0.735, fill=C.WHITE, outline=C.INK)
+    person(draw, rect, 0.26, 0.96, 0.47, shirt=(70, 84, 120),
            trousers=(50, 50, 56))
+    _box(draw, rect, 0.285, 0.70, 0.325, 0.765, fill=C.WHITE, outline=C.INK)
 
 
 # -------------------------------------------------------------- cricket
@@ -200,29 +211,47 @@ def scene_israel(draw, rect):
 
 # ------------------------------------------------------------------- f1
 def scene_f1(draw, rect):
-    _box(draw, rect, 0, 0, 1, 1, fill=C.SKY_NIGHT)
-    # floodlight pylons
-    for fx in (0.12, 0.88):
-        _line(draw, rect, [(fx, 0.10), (fx, 0.52)], fill=(150, 156, 168),
-              width=3)
-        _ellipse(draw, rect, fx - 0.05, 0.03, fx + 0.05, 0.12,
-                 fill=(255, 244, 200))
-    _box(draw, rect, 0, 0.62, 1, 1, fill=(52, 54, 62))  # asphalt
-    _line(draw, rect, [(0, 0.80), (1, 0.80)], fill=C.WHITE, width=2)
-    # grandstand block
-    _box(draw, rect, 0.30, 0.30, 0.72, 0.55, fill=(44, 52, 74))
-    for i in range(4):
-        _line(draw, rect, [(0.31, 0.36 + i * 0.05), (0.71, 0.36 + i * 0.05)],
-              fill=(86, 98, 124), width=2)
-    # the car: low wedge body, wing, wheels
-    _poly(draw, rect, [(0.16, 0.78), (0.30, 0.66), (0.62, 0.63),
-                       (0.80, 0.74), (0.82, 0.80), (0.18, 0.82)],
-          fill=(28, 92, 140))
-    _box(draw, rect, 0.10, 0.60, 0.20, 0.80, fill=(20, 26, 36))  # rear wing
-    _box(draw, rect, 0.78, 0.72, 0.90, 0.80, fill=(20, 26, 36))  # front wing
-    _ellipse(draw, rect, 0.20, 0.76, 0.32, 0.94, fill=(16, 16, 20))
-    _ellipse(draw, rect, 0.64, 0.76, 0.76, 0.94, fill=(16, 16, 20))
-    _ellipse(draw, rect, 0.44, 0.585, 0.54, 0.665, fill=C.RED)  # helmet
+    _box(draw, rect, 0, 0, 1, 1, fill=(16, 22, 40))
+    # timing tower at the right: stacked lit windows, chequered cap
+    _box(draw, rect, 0.83, 0.10, 0.97, 0.58, fill=(52, 60, 78))
+    for r in range(3):
+        for cidx in range(2):
+            _box(draw, rect, 0.855 + cidx * 0.05, 0.17 + r * 0.125,
+                 0.885 + cidx * 0.05, 0.225 + r * 0.125,
+                 fill=(255, 226, 140))
+    for cidx in range(4):
+        _box(draw, rect, 0.83 + cidx * 0.035, 0.045, 0.865 + cidx * 0.035,
+             0.10, fill=C.WHITE if cidx % 2 == 0 else C.INK)
+    # one floodlight pylon, three bright lamps
+    _line(draw, rect, [(0.07, 0.58), (0.07, 0.10)], fill=(170, 178, 192),
+          width=3)
+    for i in range(3):
+        _ellipse(draw, rect, 0.035 + i * 0.035, 0.045, 0.065 + i * 0.035,
+                 0.095, fill=(255, 244, 200))
+    # the lit track
+    _box(draw, rect, 0, 0.58, 1, 1, fill=(112, 116, 124))
+    _line(draw, rect, [(0, 0.60), (1, 0.60)], fill=(255, 240, 190), width=2)
+    for i in range(8):
+        _box(draw, rect, i * 0.125, 0.955, i * 0.125 + 0.0625, 1.0,
+             fill=C.RED if i % 2 == 0 else C.WHITE)
+    # headlight glow thrown forward from the nose
+    _poly(draw, rect, [(0.74, 0.74), (0.97, 0.84), (0.97, 0.97),
+                       (0.74, 0.86)], fill=(150, 146, 116))
+    # the car, big in frame: tall rear wing, bright wedge body, halo,
+    # red helmet, two fat wheels
+    _box(draw, rect, 0.03, 0.34, 0.115, 0.78, fill=(16, 20, 30))
+    _box(draw, rect, 0.03, 0.34, 0.115, 0.40, fill=C.RED)
+    _poly(draw, rect, [(0.08, 0.74), (0.24, 0.56), (0.58, 0.52),
+                       (0.78, 0.66), (0.80, 0.78), (0.10, 0.82)],
+          fill=(44, 128, 190))
+    _box(draw, rect, 0.76, 0.68, 0.90, 0.78, fill=(16, 20, 30))  # front wing
+    _ellipse(draw, rect, 0.385, 0.42, 0.50, 0.545, outline=(210, 218, 226),
+             width=2)  # halo
+    _ellipse(draw, rect, 0.415, 0.45, 0.475, 0.545, fill=C.RED)  # helmet
+    _ellipse(draw, rect, 0.13, 0.68, 0.27, 0.97, fill=(12, 12, 16))
+    _ellipse(draw, rect, 0.565, 0.68, 0.705, 0.97, fill=(12, 12, 16))
+    _ellipse(draw, rect, 0.175, 0.775, 0.225, 0.875, fill=(80, 84, 94))
+    _ellipse(draw, rect, 0.61, 0.775, 0.66, 0.875, fill=(80, 84, 94))
 
 
 # --------------------------------------------------------------- tennis
@@ -389,6 +418,73 @@ def scene_igmetall(draw, rect):
            trousers=(44, 48, 60), pose="stand")
 
 
+# ---------------------------------------------------------------- china
+def scene_china(draw, rect):
+    _box(draw, rect, 0, 0, 1, 1, fill=C.SKY_DAY)
+    _box(draw, rect, 0, 0.78, 1, 1, fill=C.CONCRETE)
+    # city skyline behind
+    for fx, fh in ((0.04, 0.42), (0.16, 0.55), (0.66, 0.48), (0.80, 0.60),
+                   (0.90, 0.40)):
+        _box(draw, rect, fx, 0.78 - fh, fx + 0.09, 0.78, fill=(104, 116, 132))
+        for r in range(3):
+            _box(draw, rect, fx + 0.018, 0.78 - fh + 0.06 + r * 0.11,
+                 fx + 0.038, 0.78 - fh + 0.12 + r * 0.11,
+                 fill=(240, 226, 160))
+    # the telecom mast: lattice tower, cross-arms, dish, signal arcs
+    cx = 0.44
+    _line(draw, rect, [(cx - 0.07, 0.80), (cx, 0.16)], fill=(52, 58, 68),
+          width=3)
+    _line(draw, rect, [(cx + 0.07, 0.80), (cx, 0.16)], fill=(52, 58, 68),
+          width=3)
+    for fy in (0.32, 0.48, 0.64):
+        _line(draw, rect, [(cx - 0.055 + (fy - 0.16) * 0.1, fy),
+                           (cx + 0.055 - (fy - 0.16) * 0.1, fy)],
+              fill=(52, 58, 68), width=2)
+    _line(draw, rect, [(cx - 0.10, 0.22), (cx + 0.10, 0.22)],
+          fill=(52, 58, 68), width=3)
+    _ellipse(draw, rect, cx - 0.035, 0.115, cx + 0.035, 0.185, fill=C.WHITE,
+             outline=(52, 58, 68), width=2)
+    acx, acy = _r(rect, cx, 0.15)
+    for r in (rect[3] * 0.10, rect[3] * 0.17, rect[3] * 0.24):
+        draw.arc([acx - r, acy - r, acx + r, acy + r], start=-55, end=55,
+                 fill=C.RED, width=3)
+        draw.arc([acx - r, acy - r, acx + r, acy + r], start=125, end=235,
+                 fill=C.RED, width=3)
+    # a handset slab in the foreground with signal bars
+    _box(draw, rect, 0.565, 0.42, 0.645, 0.78, fill=(24, 28, 36),
+         outline=C.INK, width=2)
+    for i in range(4):
+        _box(draw, rect, 0.578 + i * 0.016, 0.70 - i * 0.055,
+             0.588 + i * 0.016, 0.70, fill=C.TEAL)
+
+
+# ------------------------------------------------------------- australia
+def scene_australia(draw, rect):
+    _box(draw, rect, 0, 0, 1, 1, fill=C.SKY_DAY)
+    _ellipse(draw, rect, 0.84, 0.06, 0.95, 0.24, fill=(250, 200, 80))
+    # sea with a wave line at the surface
+    _box(draw, rect, 0, 0.52, 1, 1, fill=(36, 92, 138))
+    for i in range(6):
+        _line(draw, rect, [(i * 0.18, 0.52), (i * 0.18 + 0.09, 0.485),
+                           (i * 0.18 + 0.18, 0.52)], fill=C.WHITE, width=2)
+    # the submarine at periscope depth: hull, sail, periscope, wake
+    _ellipse(draw, rect, 0.14, 0.60, 0.80, 0.86, fill=(40, 46, 56))
+    _poly(draw, rect, [(0.80, 0.66), (0.90, 0.60), (0.90, 0.86),
+                       (0.80, 0.80)], fill=(40, 46, 56))
+    _box(draw, rect, 0.40, 0.44, 0.54, 0.64, fill=(40, 46, 56))
+    _line(draw, rect, [(0.47, 0.44), (0.47, 0.335)], fill=(40, 46, 56),
+          width=3)
+    _line(draw, rect, [(0.47, 0.335), (0.53, 0.335)], fill=(40, 46, 56),
+          width=3)
+    for i in range(4):
+        _ellipse(draw, rect, 0.185 + i * 0.13, 0.685, 0.215 + i * 0.13,
+                 0.725, fill=(240, 226, 160))
+    _line(draw, rect, [(0.06, 0.90), (0.30, 0.90)], fill=(120, 180, 210),
+          width=2)
+    _line(draw, rect, [(0.02, 0.95), (0.22, 0.95)], fill=(120, 180, 210),
+          width=2)
+
+
 SCENES = {
     "cop31": scene_cop31,
     "hongkong": scene_hongkong,
@@ -402,6 +498,8 @@ SCENES = {
     "nepal": scene_nepal,
     "lebanon": scene_lebanon,
     "igmetall": scene_igmetall,
+    "china": scene_china,
+    "australia": scene_australia,
 }
 
 

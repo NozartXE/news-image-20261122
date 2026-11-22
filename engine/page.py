@@ -2,6 +2,8 @@
 
 Draw order follows the band stack in layout.BANDS.  Every string drawn
 here is one the gate has already measured, using the same fonts.
+Stories are numbered in reading order: heroes 1-2, cards 3-12, then
+the briefs wall 13-36.
 """
 
 from PIL import Image, ImageDraw
@@ -34,18 +36,6 @@ def _pin_badge(draw, cx, cy, number, disc_r, num_type):
     _text(draw, (cx, cy), str(number), num_type, fill=C.WHITE, anchor="mm")
 
 
-# pin nudges so near neighbours (Antalya/Jerusalem/Beirut, the
-# Turin/Frankfurt/Liverpool cluster) stay separate discs on the strip map
-PIN_NUDGE = {
-    "cop31": (-8, -10),
-    "israel": (17, 9),
-    "lebanon": (-18, 11),
-    "atp": (-13, 9),
-    "igmetall": (15, -11),
-    "liverpool": (-19, -7),
-}
-
-
 def render(content, stats):
     img = Image.new("RGB", (L.PAGE_W, L.PAGE_H), C.PAPER)
     draw = ImageDraw.Draw(img)
@@ -54,7 +44,7 @@ def render(content, stats):
 
     # ---------------------------------------------------------- kicker
     y = L.band_y("kicker")
-    _text(draw, (mx, y + 5), content["kicker"], "kicker", fill=C.INK_SOFT)
+    _text(draw, (mx, y + 4), content["kicker"], "kicker", fill=C.INK_SOFT)
     _rule(draw, mx, right, y + L.band_h("kicker") - 1, width=1)
 
     # -------------------------------------------------------- masthead
@@ -62,54 +52,41 @@ def render(content, stats):
     _text(draw, (mx, y + 2), content["day_line"], "day", fill=C.RED)
     _text(draw, (mx, y + 22), content["date_line"], "date", fill=C.INK)
     scope = gate.scope_line(stats)
-    _text(draw, (right, y + 30), scope, "scope", fill=C.INK, anchor="ra")
-    _text(draw, (right, y + 52), "EVERY ITEM SOURCED · EVERY STORY DATED TODAY",
+    _text(draw, (right, y + 26), scope, "scope", fill=C.INK, anchor="ra")
+    _text(draw, (right, y + 48), "EVERY ITEM SOURCED · EVERY STORY DATED TODAY",
           "scope_sub", fill=C.FAINT, anchor="ra")
+    _text(draw, (mx, y + 74), gate.tally_line(stats), "tally",
+          fill=C.TEAL_DARK)
     _rule(draw, mx, right, y + L.band_h("masthead") - 1, width=3)
 
     # ----------------------------------------------------------- strip
     y = L.band_y("strip")
     label_w = L.STRIP_LABEL_W
-    _text(draw, (mx + 2, y + 10), "THE DAY", "strip_title", fill=C.RED)
-    _text(draw, (mx + 2, y + 24), "IN FIGURES", "strip_title", fill=C.RED)
+    _text(draw, (mx + 2, y + 7), "THE DAY", "strip_title", fill=C.RED)
+    _text(draw, (mx + 2, y + 21), "IN FIGURES", "strip_title", fill=C.RED)
     cell_w = (L.FULL_TEXT_W - label_w) / len(content["strip"])
     for i, fig in enumerate(content["strip"]):
         cx = mx + label_w + cell_w * (i + 0.5)
         x0 = mx + label_w + cell_w * i
         if i:
-            draw.line([x0, y + 8, x0, y + L.band_h("strip") - 8],
+            draw.line([x0, y + 6, x0, y + L.band_h("strip") - 6],
                       fill=(196, 188, 170), width=1)
         size = words.fit_size(draw, fig["display"], "heavy", True, 30,
                               cell_w - 8)
-        draw.text((cx, y + 4), fig["display"],
+        draw.text((cx, y + 2), fig["display"],
                   font=words.font("heavy", size, True), fill=C.INK,
                   anchor="ma")
-        _text(draw, (cx, y + 35), fig["caption"], "strip_cap",
+        _text(draw, (cx, y + 31), fig["caption"], "strip_cap",
               fill=C.INK_SOFT, anchor="ma")
     _rule(draw, mx, right, y + L.band_h("strip") - 1, width=1)
 
     # ---------------------------------------------------------- heroes
     y = L.band_y("heroes")
     big, small = content["heroes"]
-    _hero(draw, big, mx, y, L.HERO_BIG_W, stats, pin_no=1, big_hero=True)
+    _hero(draw, big, mx, y, L.HERO_BIG_W, pin_no=1, big_hero=True)
     _hero(draw, small, mx + L.HERO_BIG_W + L.GUTTER, y, L.HERO_SMALL_W,
-          stats, pin_no=2, big_hero=False)
+          pin_no=2, big_hero=False)
     _rule(draw, mx, right, y + L.band_h("heroes") - 1, width=2)
-
-    # ------------------------------------------------------------- map
-    y = L.band_y("map")
-    map_rect = (mx, y, L.FULL_TEXT_W, L.band_h("map"))
-    art.draw_dot_map(draw, map_rect)
-    cap = "THE ILLUSTRATED STORIES, MAPPED"
-    cap_w = words.width(draw, cap, _f("map_cap")) + 8
-    draw.rectangle([mx, y + 2, mx + cap_w, y + 15], fill=C.PAPER)
-    _text(draw, (mx + 2, y + 3), cap, "map_cap", fill=C.INK_SOFT)
-    illustrated = content["heroes"] + content["cards"]
-    for n, story in enumerate(illustrated, start=1):
-        px, py = art.lonlat_to_xy(story["pin"][0], story["pin"][1], map_rect)
-        dx, dy = PIN_NUDGE.get(story["id"], (0, 0))
-        _pin_badge(draw, px + dx, py + dy, n, 11, "pin_num")
-    _rule(draw, mx, right, y + L.band_h("map") - 1, width=1)
 
     # ----------------------------------------------------------- cards
     y = L.band_y("cards")
@@ -120,28 +97,28 @@ def render(content, stats):
         _card(draw, card, cx, cy, pin_no=i + 3)
     _rule(draw, mx, right, y + L.band_h("cards") - 1, width=2)
 
-    # ----------------------------------------------------------- index
+    # ----------------------------------------------------- briefs wall
     y = L.band_y("index")
-    _text(draw, (mx, y + 3), content["index_title"], "index_title", fill=C.INK)
+    _text(draw, (mx, y + 2), content["index_title"], "index_title", fill=C.INK)
     _rule(draw, mx, right, y + L.INDEX_TITLE_H - 3, fill=(196, 188, 170),
           width=1)
     for i, item in enumerate(content["index"]):
-        col, row = i // L.INDEX_ROWS, i % L.INDEX_ROWS  # column-major fill
+        col, row = i % L.INDEX_COLS, i // L.INDEX_COLS  # row-major: the
+        # numbers read left to right, top to bottom
         cx = mx + col * (L.INDEX_COL_W + L.GUTTER)
         cy = y + L.INDEX_TITLE_H + row * L.INDEX_ROW_H
-        lines = words.wrap_rich(draw, f"{item['place']} —",
+        lead = f"{gate.brief_number(content, i)}. {item['place']} —"
+        lines = words.wrap_rich(draw, lead,
                                 item["fact"] + f" ({item['source']})",
                                 _f("index_brief_b"), _f("index_brief"),
                                 L.INDEX_TEXT_W)
-        ly = cy + 2
-        for line in lines:
+        for line in lines:  # the gate guarantees exactly one
             lx = cx
             for text, bold in line:
                 f = _f("index_brief_b") if bold else _f("index_brief")
-                draw.text((lx, ly), text, font=f, fill=C.INK)
+                draw.text((lx, cy + 1), text, font=f, fill=C.INK)
                 lx += words.width(draw, text, f) + words.width(
                     draw, " ", _f("index_brief"))
-            ly += L.LEAD["index_brief"]
     _rule(draw, mx, right, y + L.band_h("index") - 1, width=1)
 
     # ------------------------------------------------------- datecheck
@@ -164,7 +141,7 @@ def render(content, stats):
     return img
 
 
-def _hero(draw, hero, x, y, w, stats, pin_no, big_hero):
+def _hero(draw, hero, x, y, w, pin_no, big_hero):
     scene_rect = (x, y, w, L.HERO_SCENE_H)
     art.SCENES[hero["scene"]](draw, scene_rect)
     draw.rectangle([x, y, x + w - 1, y + L.HERO_SCENE_H - 1],
@@ -182,15 +159,6 @@ def _hero(draw, hero, x, y, w, stats, pin_no, big_hero):
             ty += L.LEAD["hero_big_head"]
         ty += 3
         _text(draw, (tx, ty), hero["dek"], "hero_big_dek", fill=C.TEAL_DARK)
-        ty += 23
-        # region chips under the dek (counts computed by the gate)
-        cx = tx
-        for chip in gate.chip_texts(stats):
-            cw = words.width(draw, chip, _f("chip")) + 14
-            draw.rounded_rectangle([cx, ty, cx + cw, ty + 17], radius=8,
-                                   outline=C.TEAL, width=1)
-            _text(draw, (cx + 7, ty + 3), chip, "chip", fill=C.TEAL_DARK)
-            cx += cw + 6
         ty += 23
         for line in _wrap(draw, hero["body"], "hero_body", tw):
             _text(draw, (tx, ty), line, "hero_body", fill=C.INK_SOFT)
