@@ -1,0 +1,303 @@
+{
+ "cards": [
+  {
+   "body": "Pant's hundred leads India's highest Test total in NZ; the lead is 261 on day four. (Reuters)",
+   "headline": "INDIA PILE UP 629-6 AT LUNCH",
+   "id": "cricket",
+   "kicker": "WELLINGTON · TEST CRICKET",
+   "pin": [
+    174.8,
+    -41.3
+   ],
+   "place": "WELLINGTON",
+   "region": "Asia-Pacific",
+   "scene": "cricket",
+   "verify": "Reuters, Sun 22 Nov 00:41 GMT: India 629-6 at lunch day 4, 1st Test v NZ, lead 261, Pant century, highest India Test total in NZ (prev 520, Hamilton 2009); NZ 368."
+  },
+  {
+   "body": "Eisenkot takes the mandate at a ceremony today; his coalition clock runs to Dec 6. (Al Jazeera)",
+   "headline": "MARATHON TALKS BEGIN",
+   "id": "israel",
+   "kicker": "JERUSALEM · COALITION",
+   "pin": [
+    35.2,
+    31.8
+   ],
+   "place": "JERUSALEM",
+   "region": "Middle East",
+   "scene": "israel",
+   "verify": "Al Jazeera, 22 Nov: Herzog formally hands Eisenkot the mandate at a ceremony on Sunday; Eisenkot to begin marathon coalition talks on Sunday; 67 recommendations v 46 for Netanyahu."
+  },
+  {
+   "body": "Antonelli lapped 1:33.893, fastest of all, but a penalty puts Verstappen on pole. (Formula 1)",
+   "headline": "VERSTAPPEN ON POLE",
+   "id": "f1",
+   "kicker": "LAS VEGAS · GRAND PRIX",
+   "pin": [
+    -115.1,
+    36.2
+   ],
+   "place": "LAS VEGAS",
+   "region": "North America",
+   "scene": "f1",
+   "verify": "Formula1.com / FIA: Las Vegas GP starts 04:00 GMT Sun 22 Nov; Antonelli fastest in qualifying 1:33.893 but carries a 5-place penalty, so Verstappen starts on pole, Russell alongside."
+  },
+  {
+   "body": "The singles final closes the season today, not before 18:00 CET. (ATP)",
+   "headline": "ZVEREV v ALCARAZ FOR THE TITLE",
+   "id": "atp",
+   "kicker": "TURIN · ATP FINALS",
+   "pin": [
+    7.7,
+    45.1
+   ],
+   "place": "TURIN",
+   "region": "Europe",
+   "scene": "tennis",
+   "verify": "ATP: Nitto ATP Finals singles final Sun 22 Nov, Zverev v Alcaraz, not before 18:00 CET. (15:00 CET is the doubles final.)"
+  },
+  {
+   "body": "It is 70 years since the 1956 Games opened here; Dawn Fraser at a reunion lunch at the MCG. (AAP)",
+   "headline": "THE FLAME AT SEVENTY",
+   "id": "melbourne",
+   "kicker": "MELBOURNE · ANNIVERSARY",
+   "pin": [
+    145.0,
+    -37.8
+   ],
+   "place": "MELBOURNE",
+   "region": "Asia-Pacific",
+   "scene": "melbourne",
+   "verify": "AAP: 70th anniversary of the 1956 Melbourne Olympics opening (22 Nov 1956) marked Sun 22 Nov 2026; Dawn Fraser reunion lunch at the MCG."
+  },
+  {
+   "body": "The fiercest fixture in English football kicks off at 16:30 GMT. (Sky Sports)",
+   "headline": "UNITED COME TO ANFIELD",
+   "id": "liverpool",
+   "kicker": "LIVERPOOL · PREMIER LEAGUE",
+   "pin": [
+    -2.98,
+    53.4
+   ],
+   "place": "LIVERPOOL",
+   "region": "Europe",
+   "scene": "football",
+   "verify": "Sky Sports / Liverpool FC: Liverpool v Manchester United, Anfield, Sun 22 Nov, 16:30 GMT."
+  },
+  {
+   "body": "Eleven games across the league as the playoff picture tightens. (NFL schedule)",
+   "headline": "WEEK 12: ELEVEN SUNDAY GAMES",
+   "id": "nfl",
+   "kicker": "UNITED STATES · NFL",
+   "pin": [
+    -95.0,
+    39.0
+   ],
+   "place": "UNITED STATES",
+   "region": "North America",
+   "scene": "nfl",
+   "verify": "NFL Week 12 schedule: 11 games on Sun 22 Nov 2026 (schedule listings, Dose.ca / StatMuse)."
+  },
+  {
+   "body": "Balendra Shah arrives today on his first bilateral visit; talks with Modi follow on Monday. (IANS)",
+   "headline": "NEPAL'S PM LANDS IN DELHI",
+   "id": "nepal",
+   "kicker": "NEW DELHI · DIPLOMACY",
+   "pin": [
+    77.2,
+    28.6
+   ],
+   "place": "NEW DELHI",
+   "region": "Asia-Pacific",
+   "scene": "nepal",
+   "verify": "Nepal MoFA / IANS: PM Balendra Shah state visit 22-23 Nov; arrives Delhi Sun 22 Nov; first bilateral visit; Modi talks 23 Nov."
+  },
+  {
+   "body": "Lebanon marks the day; in an eve address, Aoun demanded an Israeli withdrawal. (AFP)",
+   "headline": "83RD INDEPENDENCE DAY",
+   "id": "lebanon",
+   "kicker": "BEIRUT · INDEPENDENCE DAY",
+   "pin": [
+    35.5,
+    33.9
+   ],
+   "place": "BEIRUT",
+   "region": "Middle East",
+   "scene": "lebanon",
+   "verify": "Lebanon's 83rd Independence Day falls on Sun 22 Nov 2026 itself; President Aoun's eve-of-day speech (Sat) demanded Israeli withdrawal (Al Jazeera / AFP)."
+  },
+  {
+   "body": "IG Metall tells 23,000 workers at 19 firms to strike for 24 hours on Monday. (Reuters)",
+   "headline": "METALWORKERS CALLED OUT",
+   "id": "igmetall",
+   "kicker": "FRANKFURT · LABOUR",
+   "pin": [
+    8.7,
+    50.1
+   ],
+   "place": "FRANKFURT",
+   "region": "Europe",
+   "scene": "igmetall",
+   "verify": "Reuters (filed Sat 21 Nov 23:02 GMT = Sun 22 Nov CET; union 'said on Sunday'): IG Metall calls Monday 24-hour strike, 23,000 workers, 19 companies incl. Mercedes-Benz, Meyer Werft, Siemens Gamesa; 5% pay demand. Qualifies under the kit rule: first reported on 22 Nov in at least one time zone."
+  }
+ ],
+ "date_line": "22 NOVEMBER 2026",
+ "datecheck": [
+  "England 37-12 New Zealand, rugby — Sat 21 Nov (Reuters)",
+  "Ireland 20-17 South Africa, rugby — Sat 21 Nov (Reuters)",
+  "Lisbon living-cost march — Sat 21 Nov (Reuters)",
+  "Geneva killer-robot talks end — Sat 21 Nov (Reuters)",
+  "Fred Nile dies at 92 — Sat 21 Nov (Guardian)",
+  "Arsenal 2-2 Newcastle; Leeds 4-1 Chelsea — Sat 21 Nov (Reuters)",
+  "France 45-17 Argentina, rugby — Sat 21 Nov (Sky Sports)",
+  "Brussels airport strike called — Sat 21 Nov (Skeyes)",
+  "Gupta jailed 235 months — Fri 20 Nov (Reuters)",
+  "Virginia measles death, first since 1978 — Fri 20 Nov (Reuters)",
+  "Roundup $7.25bn settlement OK'd — Fri 20 Nov (Reuters)",
+  "India-Canada trade round ends — Fri 20 Nov (PIB)",
+  "UNFPA partner-violence report — Thu 19 Nov (Guardian)",
+  "Somalia orders UAE envoy out — Thu 19 Nov (AP)",
+  "Voyager 1 reaches one light-day — Wed 18 Nov (NASA)",
+  "Russian drones over Moldova — Tue 17 Nov (Kyiv Independent)"
+ ],
+ "datecheck_title": "DATE CHECK — NOT SUNDAY: SHARED WIDELY THIS WEEKEND, BUT EACH HAPPENED EARLIER",
+ "day_line": "SUNDAY",
+ "expected": {
+  "cards": 10,
+  "heroes": 2,
+  "illustrated": 12,
+  "index": 6,
+  "regions": 4,
+  "total": 18
+ },
+ "footer": "EVERY STORY ABOVE IS SUNDAY 22 NOVEMBER 2026 NEWS · A SOURCE IS PRINTED WITH EACH ITEM · PAGE DRAWN BY CODE FROM A VALIDATED CONTENT FILE",
+ "heroes": [
+  {
+   "body": "Near 200 nations wait on the text: a draft stripped of any fossil-fuel mention dropped the adaptation goal too. (Reuters)",
+   "dek": "Final text out; objections due 03:00 GMT, vote 06:00 GMT",
+   "headline": "CLIMATE TALKS GO TO THE WIRE",
+   "id": "cop31",
+   "kicker": "ANTALYA · COP31 CLIMATE SUMMIT",
+   "pin": [
+    30.7,
+    36.9
+   ],
+   "place": "ANTALYA",
+   "region": "Europe",
+   "scene": "cop31",
+   "verify": "Capitol Wire/Reuters, Sun 22 Nov ~02:00 GMT: objections due 03:00 GMT, approval session 06:00 GMT; fossil-fuel mention stripped; $120bn adaptation target dropped. Vote had NOT happened at check time."
+  },
+  {
+   "body": "5,757 voters choose at five polling stations. The 1,500-member committee will pick the next chief executive. (SCMP)",
+   "dek": "Polls open 09:00-18:00 across the city",
+   "headline": "856 CHASE 723 SEATS",
+   "id": "hongkong",
+   "kicker": "HONG KONG · ELECTION COMMITTEE POLLS",
+   "pin": [
+    114.2,
+    22.3
+   ],
+   "place": "HONG KONG",
+   "region": "Asia-Pacific",
+   "scene": "hongkong",
+   "verify": "SCMP / China Daily Asia, Sun 22 Nov: polls opened 09:00, 856 candidates, 723 seats, 31 subsectors, five polling stations, committee elects next chief executive. Voter roll 5,757 per dossier; SCMP rounds to some 5,700."
+  }
+ ],
+ "index": [
+  {
+   "fact": "Doubles final today: Arevalo and Pavic face Arribage and Olivetti at 15:00 CET",
+   "place": "TURIN",
+   "region": "Europe",
+   "source": "ATP",
+   "verify": "ATP Finals order of play, Sun 22 Nov: doubles final 15:00 CET, Arevalo/Pavic v Arribage/Olivetti."
+  },
+  {
+   "fact": "Hull City host second-placed Brighton in the Premier League at 14:00 GMT",
+   "place": "HULL",
+   "region": "Europe",
+   "source": "Sky Sports",
+   "verify": "Sky Sports fixture page: Hull City v Brighton, MKM Stadium, Sun 22 Nov 2026, 14:00 GMT."
+  },
+  {
+   "fact": "UK Championship snooker qualifying runs all week; the York main draw opens Nov 28",
+   "place": "LEICESTER",
+   "region": "Europe",
+   "source": "WST",
+   "verify": "World Snooker Tour / Wikipedia: UK Championship qualifying at Leicester Arena 21-26 Nov 2026; main event York Barbican 28 Nov - 6 Dec."
+  },
+  {
+   "fact": "Serbia reruns minority-council votes at five polling stations today",
+   "place": "SUBOTICA",
+   "region": "Europe",
+   "source": "RIK",
+   "verify": "Republic Electoral Commission (RIK) via Srpske Novine: repeat voting for Hungarian, Bunjevac and Albanian national councils at five stations in Subotica and Bujanovac on Sun 22 Nov, 07:00-20:00."
+  },
+  {
+   "fact": "Leo XIV gives the Angelus on the Christ the King feast, closing the liturgical year",
+   "place": "VATICAN",
+   "region": "Europe",
+   "source": "Vatican",
+   "verify": "Vatican schedule: Sunday Angelus, 22 Nov 2026, 12:00 CET, St Peter's Square; 22 Nov 2026 is the Solemnity of Christ the King, last Sunday of the liturgical year."
+  },
+  {
+   "fact": "SCO civilisational dialogue forum ends a three-day run in Delhi",
+   "place": "NEW DELHI",
+   "region": "Asia-Pacific",
+   "source": "PIB",
+   "verify": "Press Information Bureau: first SCO Civilisational Dialogue Forum, Purana Qila, New Delhi, 20-22 Nov 2026, with thematic sessions on 21 and 22 Nov."
+  }
+ ],
+ "index_title": "ALSO TODAY — THE REST OF SUNDAY IN BRIEF",
+ "kicker": "THE WORLD IN ONE PAGE · SUNDAY EDITION · ALL TIMES GMT UNLESS STATED",
+ "strip": [
+  {
+   "anchor": "cop31",
+   "caption": "OBJECTIONS DUE",
+   "display": "03:00",
+   "token": "03:00"
+  },
+  {
+   "anchor": "cop31",
+   "caption": "THE VOTE",
+   "display": "06:00",
+   "token": "06:00"
+  },
+  {
+   "anchor": "cricket",
+   "caption": "INDIA AT LUNCH",
+   "display": "629-6",
+   "token": "629-6"
+  },
+  {
+   "anchor": "hongkong",
+   "caption": "CANDIDATES",
+   "display": "856",
+   "token": "856"
+  },
+  {
+   "anchor": "hongkong",
+   "caption": "SEATS",
+   "display": "723",
+   "token": "723"
+  },
+  {
+   "anchor": "hongkong",
+   "caption": "VOTERS",
+   "display": "5,757",
+   "token": "5,757"
+  },
+  {
+   "anchor": "f1",
+   "caption": "FASTEST LAP",
+   "display": "1:33.893",
+   "token": "1:33.893"
+  },
+  {
+   "anchor": "melbourne",
+   "caption": "SINCE MELBOURNE 1956",
+   "display": "70 YEARS",
+   "token": "70 years"
+  }
+ ],
+ "strip_title": "THE DAY IN FIGURES"
+}
