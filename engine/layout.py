@@ -14,10 +14,10 @@ BANDS = [
     ("kicker", 22),
     ("masthead", 94),
     ("strip", 44),
-    ("heroes", 252),
+    ("heroes", 236),
     ("cards", 280),
     ("index", 200),
-    ("datecheck", 112),
+    ("datecheck", 128),
     ("footer", 20),
 ]
 

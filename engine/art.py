@@ -94,42 +94,69 @@ def person(draw, rect, fx, base, h, shirt, trousers, skin=SKIN,
 
 # ---------------------------------------------------------------- COP31
 def scene_cop31(draw, rect):
+    """The outcome: a populated plenary chamber at the gavel.
+
+    A presidium strip across the top (president centre, gavel up,
+    the adopted text on the screen behind), then three full rows of
+    seated delegates — heads and shoulders behind long desk bands
+    with name plates — so the frame is full of the near-200 nations
+    the story is about.  No empty floor anywhere.
+    """
     _box(draw, rect, 0, 0, 1, 1, fill=C.HALL)
-    _box(draw, rect, 0, 0, 1, 0.16, fill=C.TEAL_DARK)
-    # the big clock: the summit is waiting on two deadlines
-    cx, cy = _r(rect, 0.845, 0.40)
-    R = rect[3] * 0.30
-    draw.ellipse([cx - R, cy - R, cx + R, cy + R], fill=C.WHITE,
-                 outline=C.INK, width=3)
-    for ang in range(0, 360, 30):
-        import math
-        x1 = cx + R * 0.86 * math.cos(math.radians(ang))
-        y1 = cy + R * 0.86 * math.sin(math.radians(ang))
-        x2 = cx + R * 0.97 * math.cos(math.radians(ang))
-        y2 = cy + R * 0.97 * math.sin(math.radians(ang))
-        draw.line([x1, y1, x2, y2], fill=C.INK, width=2)
-    import math
-    # hands at six o'clock exactly: the 06:00 GMT approval session —
-    # one time, labelled in the dek, no second reading possible
-    draw.line([cx, cy, cx, cy + R * 0.52], fill=C.RED, width=4)
-    draw.line([cx, cy, cx, cy - R * 0.78], fill=C.INK, width=4)
-    draw.ellipse([cx - 4, cy - 4, cx + 4, cy + 4], fill=C.INK)
-    # delegates seated along the table, waiting — drawn before the
-    # table so the tabletop hides their legs and they read as seated
-    for i, fx in enumerate((0.10, 0.22, 0.34, 0.46, 0.58)):
-        person(draw, rect, fx, 0.74, 0.40,
-               shirt=(52, 64, 92) if i % 2 else (96, 60, 52),
-               trousers=(40, 40, 48), skin=SKIN if i % 2 else SKIN_D)
-    # long negotiating table: top, slim front, two legs
-    _box(draw, rect, 0.04, 0.62, 0.70, 0.70, fill=(120, 88, 58))
-    _box(draw, rect, 0.04, 0.70, 0.70, 0.79, fill=(146, 112, 76))
-    _box(draw, rect, 0.06, 0.79, 0.09, 0.97, fill=(120, 88, 58))
-    _box(draw, rect, 0.65, 0.79, 0.68, 0.97, fill=(120, 88, 58))
-    # a stack of draft pages on the table
-    _box(draw, rect, 0.615, 0.545, 0.685, 0.625, fill=C.WHITE, outline=C.INK)
-    _line(draw, rect, [(0.625, 0.565), (0.675, 0.565)], fill=C.FAINT, width=1)
-    _line(draw, rect, [(0.625, 0.585), (0.675, 0.585)], fill=C.FAINT, width=1)
-    _line(draw, rect, [(0.625, 0.605), (0.665, 0.605)], fill=C.FAINT, width=1)
+    # screen behind the presidium: the adopted text as a visible
+    # object — a big white document sheet with ruled lines and a seal
+    _box(draw, rect, 0.395, 0.03, 0.605, 0.30, fill=C.WHITE, outline=C.INK,
+         width=2)
+    for i in range(3):
+        _line(draw, rect, [(0.415, 0.085 + i * 0.05),
+                           (0.585, 0.085 + i * 0.05)], fill=C.FAINT, width=1)
+    _ellipse(draw, rect, 0.545, 0.185, 0.59, 0.275, fill=C.TEAL)
+    # presidium desk band with name plates
+    _box(draw, rect, 0.30, 0.30, 0.70, 0.375, fill=(120, 88, 58))
+    for fx in (0.375, 0.50, 0.625):
+        _box(draw, rect, fx - 0.028, 0.322, fx + 0.028, 0.352, fill=C.WHITE,
+             outline=C.INK)
+    # three presidium figures behind the desk; the president in the
+    # centre has the gavel raised
+    for fx, pose in ((0.375, "stand"), (0.50, "raise"), (0.625, "stand")):
+        person(draw, rect, fx, 0.335, 0.30,
+               shirt=(52, 64, 92), trousers=(40, 40, 48),
+               skin=SKIN if fx != 0.50 else SKIN_D, pose=pose)
+    # the gavel in the president's raised right hand
+    gx, gy = _r(rect, 0.585, 0.075)
+    draw.line([gx, gy, gx + rect[3] * 0.10, gy - rect[3] * 0.07],
+              fill=(90, 62, 34), width=3)
+    _ellipse(draw, rect, 0.578, 0.015, 0.60, 0.075, fill=(90, 62, 34))
+    # three delegate rows: desk band, then a row of heads/shoulders
+    # behind it (drawn after the band so heads rise above the desks)
+    shirts = [(52, 64, 92), (96, 60, 52), (58, 92, 74), (120, 84, 60),
+              (70, 84, 120), (96, 96, 104)]
+    for row, (desk_y, head_base) in enumerate(((0.47, 0.475),
+                                               (0.66, 0.665),
+                                               (0.85, 0.855))):
+        _box(draw, rect, 0.015, desk_y, 0.985, desk_y + 0.055,
+             fill=(146, 112, 76))
+        n = 17 - row  # back rows slightly denser
+        for i in range(n):
+            fx = 0.045 + i * (0.91 / max(n - 1, 1)) + (0.012 if row % 2
+                                                       else 0.0)
+            if fx > 0.97:
+                continue
+            cx, by = _r(rect, fx, head_base)
+            H = rect[3] * 0.16
+            skin = SKIN if (i + row) % 3 else SKIN_D
+            draw.ellipse([cx - H * 0.30, by - H * 0.95, cx + H * 0.30,
+                          by - H * 0.35], fill=skin)
+            draw.pieslice([cx - H * 0.31, by - H * 1.0, cx + H * 0.31,
+                           by - H * 0.42], start=180, end=360,
+                          fill=HAIR if (i + row) % 4 else (120, 116, 108))
+            draw.polygon([(cx - H * 0.52, by), (cx + H * 0.52, by),
+                          (cx + H * 0.34, by - H * 0.38),
+                          (cx - H * 0.34, by - H * 0.38)],
+                         fill=shirts[(i + 2 * row) % len(shirts)])
+            if i % 3 == 0:  # a name plate on the desk in front
+                _box(draw, rect, fx - 0.016, desk_y + 0.012,
+                     fx + 0.016, desk_y + 0.038, fill=C.WHITE)
 
 
 # ------------------------------------------------------------ Hong Kong
@@ -146,12 +173,30 @@ def scene_hongkong(draw, rect):
     tw = draw.textlength(label, font=fnt)
     tx, ty = _r(rect, 0.5, 0.155)
     draw.text((tx - tw / 2, ty - size / 2), label, font=fnt, fill=C.WHITE)
+    # candidate board on the left wall: rows of a tick square and a
+    # name line, so the election reads even without the headline
+    _box(draw, rect, 0.03, 0.33, 0.315, 0.66, fill=C.WHITE, outline=C.INK,
+         width=2)
+    for i in range(4):
+        ry = 0.365 + i * 0.072
+        _box(draw, rect, 0.05, ry, 0.085, ry + 0.038, outline=C.INK)
+        if i in (0, 2):
+            _line(draw, rect, [(0.055, ry + 0.02), (0.065, ry + 0.032),
+                               (0.08, ry + 0.006)], fill=C.RED, width=2)
+        _line(draw, rect, [(0.105, ry + 0.019), (0.29, ry + 0.019)],
+              fill=C.INK_SOFT, width=2)
     # ballot box, big in frame, slot on top, red seal on the front
     _box(draw, rect, 0.58, 0.46, 0.92, 0.94, fill=(240, 238, 232),
          outline=C.INK, width=2)
     _box(draw, rect, 0.63, 0.49, 0.87, 0.525, fill=C.INK)
-    _ellipse(draw, rect, 0.695, 0.63, 0.815, 0.82, fill=C.RED)
-    _ellipse(draw, rect, 0.725, 0.685, 0.785, 0.765, fill=C.WHITE)
+    # a ballot sheet half-way into the slot: the act itself, legible
+    _box(draw, rect, 0.705, 0.375, 0.795, 0.50, fill=C.WHITE, outline=C.INK)
+    _line(draw, rect, [(0.72, 0.41), (0.78, 0.41)], fill=C.INK_SOFT, width=1)
+    _line(draw, rect, [(0.72, 0.445), (0.78, 0.445)], fill=C.INK_SOFT,
+          width=1)
+    # small round seal, low on the front face — a seal, not a target
+    _ellipse(draw, rect, 0.715, 0.76, 0.785, 0.875, fill=C.RED)
+    _ellipse(draw, rect, 0.738, 0.795, 0.762, 0.84, fill=C.WHITE)
     # voter slipping the ballot in, close to the box
     person(draw, rect, 0.42, 0.96, 0.60, shirt=C.TEAL, trousers=(44, 48, 60),
            pose="vote")
@@ -228,6 +273,12 @@ def scene_f1(draw, rect):
     for i in range(3):
         _ellipse(draw, rect, 0.035 + i * 0.035, 0.045, 0.065 + i * 0.035,
                  0.095, fill=(255, 244, 200))
+    # the chequered flag flying from the pylon: the race is run
+    for r in range(3):
+        for cidx in range(5):
+            _box(draw, rect, 0.075 + cidx * 0.026, 0.115 + r * 0.032,
+                 0.101 + cidx * 0.026, 0.147 + r * 0.032,
+                 fill=C.WHITE if (r + cidx) % 2 == 0 else C.INK)
     # the lit track
     _box(draw, rect, 0, 0.58, 1, 1, fill=(112, 116, 124))
     _line(draw, rect, [(0, 0.60), (1, 0.60)], fill=(255, 240, 190), width=2)
