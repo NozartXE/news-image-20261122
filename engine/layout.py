@@ -8,17 +8,20 @@ MARGIN = 10
 GUTTER = 8
 
 # (name, height) top to bottom — must sum to PAGE_H (gate-checked).
-# The dotted map band is gone: its height went to the briefs wall,
-# which is where the density lives now.
+# Round 3: the figure strip is gone — every figure it printed was a
+# duplicate of a number already inside its anchor story (both panel
+# seats said so).  Its height, plus measured trims to the kicker,
+# masthead, heroes and footer bands, funds the locator map the
+# panels asked for in both rounds.
 BANDS = [
-    ("kicker", 22),
+    ("kicker", 18),
     ("masthead", 94),
-    ("strip", 44),
-    ("heroes", 236),
+    ("map", 64),
+    ("heroes", 224),
     ("cards", 280),
     ("index", 200),
     ("datecheck", 128),
-    ("footer", 20),
+    ("footer", 16),
 ]
 
 
@@ -54,8 +57,9 @@ INDEX_TITLE_H = 20
 INDEX_COL_W = (PAGE_W - 2 * MARGIN - (INDEX_COLS - 1) * GUTTER) / INDEX_COLS
 INDEX_ROW_H = (band_h("index") - INDEX_TITLE_H) / INDEX_ROWS
 
-# strip
-STRIP_LABEL_W = 84
+# locator map: pins are the 12 illustrated stories, numbered as on
+# the page; the map rect is the full text width by the band height.
+MAP_PIN_R = 8
 
 # date check
 DATECHECK_TITLE_H = 15
@@ -71,8 +75,8 @@ TYPE = {
     "scope": ("sans", 13, True),
     "scope_sub": ("sans", 10, False),
     "tally": ("sans", 11, True),
-    "strip_title": ("sans", 10, True),
-    "strip_cap": ("sans", 9, True),
+    "map_title": ("sans", 11, True),
+    "map_cap": ("sans", 9, False),
     "hero_kicker": ("sans", 12, True),
     "hero_kicker_s": ("sans", 11, True),
     "hero_big_head": ("sans", 32, True),

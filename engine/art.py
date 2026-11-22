@@ -600,3 +600,84 @@ def draw_dot_map(draw, rect):
             cy = y + (r + 0.5) * h / rows
             draw.ellipse([cx - dot, cy - dot, cx + dot, cy + dot],
                          fill=(128, 112, 80))
+
+
+# ---------------------------------------------------------- locator map
+# Pin fan offsets (px) for stories whose true positions collide at
+# band scale: the Levant trio (1/4/9), the Turin–Frankfurt pair
+# (6/10), Beijing–Hong Kong (11/2) and the Oceania trio (3/7/12).
+# A fanned pin keeps a 1px leader line to its true point, which is
+# marked with a white dot — standard news-map practice.
+PIN_FAN = {
+    "cop31": (-14, -9),
+    "israel": (16, 10),
+    "lebanon": (13, -11),
+    "atp": (11, 9),
+    "igmetall": (-13, -4),
+    "hongkong": (6, 12),
+    "cricket": (0, -6),
+    "melbourne": (0, -4),
+    "australia": (14, -6),
+}
+
+MAP_SEA = (24, 36, 54)
+MAP_GRID = (43, 58, 78)
+MAP_LAND = (203, 178, 130)
+MAP_LEADER = (206, 211, 216)
+
+
+def draw_locator_map(draw, rect, pins):
+    """Filled-continent locator map with numbered story pins.
+
+    pins: list of (number, story_id, lon, lat) in page order.  Land
+    is drawn as run-merged rectangles from the LAND grid so the
+    continents read as landmasses, not anonymous dots.
+    """
+    from . import colours as C
+    from . import words
+
+    x, y, w, h = rect
+    draw.rectangle([x, y, x + w - 1, y + h - 1], fill=MAP_SEA)
+    # graticule every 30 degrees
+    for lon in range(-150, 180, 30):
+        gx, _ = lonlat_to_xy(lon, 0, rect)
+        draw.line([gx, y, gx, y + h - 1], fill=MAP_GRID, width=1)
+    for lat in (60, 30, 0, -30):
+        _, gy = lonlat_to_xy(0, lat, rect)
+        draw.line([x, gy, x + w - 1, gy], fill=MAP_GRID, width=1)
+    # landmasses: merge each row's runs of '#' into one rectangle
+    rows = len(LAND)
+    cols = len(LAND[0])
+    cell_w = w / cols
+    cell_h = h / rows
+    for r, row in enumerate(LAND):
+        cy0 = y + r * cell_h
+        run = None
+        for cidx, ch in enumerate(row + " "):
+            if ch == "#" and run is None:
+                run = cidx
+            elif ch != "#" and run is not None:
+                draw.rectangle([x + run * cell_w, cy0,
+                                x + cidx * cell_w, cy0 + cell_h],
+                               fill=MAP_LAND)
+                run = None
+    # pins: leader + true-point dot first, discs on top
+    num_font = words.font("sans", 9, True)
+    placed = []
+    for number, story_id, lon, lat in pins:
+        tx, ty = lonlat_to_xy(lon, lat, rect)
+        dx, dy = PIN_FAN.get(story_id, (0, 0))
+        cx, cy = tx + dx, ty + dy
+        placed.append((number, tx, ty, cx, cy))
+    for number, tx, ty, cx, cy in placed:
+        if (cx, cy) != (tx, ty):
+            draw.line([tx, ty, cx, cy], fill=MAP_LEADER, width=1)
+            draw.ellipse([tx - 1.5, ty - 1.5, tx + 1.5, ty + 1.5],
+                         fill=C.WHITE)
+    for number, tx, ty, cx, cy in placed:
+        r = 8
+        draw.ellipse([cx - r - 2, cy - r - 2, cx + r + 2, cy + r + 2],
+                     fill=C.WHITE)
+        draw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=C.RED)
+        draw.text((cx, cy), str(number), font=num_font, fill=C.WHITE,
+                  anchor="mm")

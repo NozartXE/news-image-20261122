@@ -59,26 +59,17 @@ def render(content, stats):
           fill=C.TEAL_DARK)
     _rule(draw, mx, right, y + L.band_h("masthead") - 1, width=3)
 
-    # ----------------------------------------------------------- strip
-    y = L.band_y("strip")
-    label_w = L.STRIP_LABEL_W
-    _text(draw, (mx + 2, y + 7), "THE DAY", "strip_title", fill=C.RED)
-    _text(draw, (mx + 2, y + 21), "IN FIGURES", "strip_title", fill=C.RED)
-    cell_w = (L.FULL_TEXT_W - label_w) / len(content["strip"])
-    for i, fig in enumerate(content["strip"]):
-        cx = mx + label_w + cell_w * (i + 0.5)
-        x0 = mx + label_w + cell_w * i
-        if i:
-            draw.line([x0, y + 6, x0, y + L.band_h("strip") - 6],
-                      fill=(196, 188, 170), width=1)
-        size = words.fit_size(draw, fig["display"], "heavy", True, 30,
-                              cell_w - 8)
-        draw.text((cx, y + 2), fig["display"],
-                  font=words.font("heavy", size, True), fill=C.INK,
-                  anchor="ma")
-        _text(draw, (cx, y + 31), fig["caption"], "strip_cap",
-              fill=C.INK_SOFT, anchor="ma")
-    _rule(draw, mx, right, y + L.band_h("strip") - 1, width=1)
+    # ----------------------------------------------------- locator map
+    y = L.band_y("map")
+    pins = [(i + 1, s["id"], s["pin"][0], s["pin"][1])
+            for i, s in enumerate(content["heroes"] + content["cards"])]
+    art.draw_locator_map(draw, (mx, y, L.FULL_TEXT_W, L.band_h("map")),
+                         pins)
+    _text(draw, (mx + 8, y + 40), content["map_title"], "map_title",
+          fill=C.WHITE)
+    _text(draw, (mx + 8, y + 52), content["map_caption"], "map_cap",
+          fill=(200, 205, 210))
+    _rule(draw, mx, right, y + L.band_h("map") - 1, width=2)
 
     # ---------------------------------------------------------- heroes
     y = L.band_y("heroes")

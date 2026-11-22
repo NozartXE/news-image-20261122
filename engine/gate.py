@@ -9,9 +9,9 @@ render a page whose accounting breaks:
   independent recount from the frame reproduces it;
 - no place is counted twice across heroes, cards and briefs;
 - sport stories are flagged in the data and capped;
-- every figure-strip token is printed exactly twice on the whole
-  page: once in the strip, once inside its anchor story — and never
-  in the DATE CHECK;
+- every illustrated story carries a map pin (lon/lat) inside the
+  locator map's projection range, so the map can place all 12
+  numbered pins it promises in its caption;
 - every brief is a NUMBERED one-liner in PLACE — fact (Source) form,
   measured at the real font, with depth checked by ROW index;
 - every DATE CHECK item carries a full date and a source tag, and no
@@ -98,9 +98,7 @@ def printed_strings(content, stats):
                      content["date_line"], scope_line(stats),
                      "EVERY ITEM SOURCED · EVERY STORY DATED TODAY",
                      tally_line(stats)],
-        "strip": [content["strip_title"]]
-                 + [f["display"] for f in content["strip"]]
-                 + [f["caption"] for f in content["strip"]],
+        "map": [content["map_title"], content["map_caption"]],
         "index": [content["index_title"]]
                  + [f"{brief_number(content, i)}. {brief_text(item)}"
                     for i, item in enumerate(content["index"])],
@@ -182,28 +180,17 @@ def validate(content):
     groups = printed_strings(content, stats)
     all_text = "\n".join(s for g in groups.values() for s in g).lower()
 
-    # ---- figure strip ----------------------------------------------
-    stories_by_id = {s["id"]: s for s in content["heroes"] + content["cards"]}
-    for fig in content["strip"]:
-        token = fig["token"].lower()
-        if token not in fig["display"].lower():
-            errors.append(f"strip: display {fig['display']!r} does not show "
-                          f"token {fig['token']!r}")
-        occurrences = all_text.count(token)
-        if occurrences != 2:
-            errors.append(f"strip: token {fig['token']!r} printed "
-                          f"{occurrences} times, must be exactly 2 "
-                          f"(strip + anchor)")
-        anchor = stories_by_id.get(fig["anchor"])
-        if anchor is None:
-            errors.append(f"strip: anchor story {fig['anchor']!r} not found")
-        elif token not in "\n".join(story_strings(anchor)).lower():
-            errors.append(f"strip: token {fig['token']!r} not anchored in "
-                          f"story {fig['anchor']!r}")
-        for item in content["datecheck"]:
-            if token in item.lower():
-                errors.append(f"strip: token {fig['token']!r} leaks into "
-                              f"DATE CHECK item {item[:40]!r}")
+    # ---- locator map pins -------------------------------------------
+    for story in content["heroes"] + content["cards"]:
+        pin = story.get("pin")
+        if (not isinstance(pin, list) or len(pin) != 2
+                or not all(isinstance(v, (int, float)) for v in pin)):
+            errors.append(f"map: story {story['id']} has no [lon, lat] pin")
+            continue
+        lon, lat = pin
+        if not -180.0 <= lon <= 180.0 or not -56.0 <= lat <= 84.0:
+            errors.append(f"map: story {story['id']} pin ({lon}, {lat}) "
+                          f"outside the projection range")
 
     # ---- briefs wall --------------------------------------------------
     brief_re = re.compile(r"^[A-Z ]+ — .+ \([A-Za-z ]+\)$")
@@ -290,7 +277,7 @@ def validate(content):
             errors.append(f"card {card['id']}: stack is {stack}px > card "
                           f"{L.CARD_H:.0f}px")
 
-    # ---- masthead / strip / footer -------------------------------------
+    # ---- masthead / map / footer ---------------------------------------
     _check_fit(errors, "kicker", content["kicker"], "kicker",
                L.FULL_TEXT_W, 1)
     _check_fit(errors, "footer", content["footer"], "footer",
@@ -300,15 +287,10 @@ def validate(content):
                L.FULL_TEXT_W, 1)
     if words.width(_draw, content["date_line"], fnt("date")) > 700:
         errors.append("masthead: date line too wide at 56pt serif")
-    cell_w = (L.FULL_TEXT_W - L.STRIP_LABEL_W) / len(content["strip"])
-    for fig in content["strip"]:
-        size = words.fit_size(_draw, fig["display"], "heavy", True, 30,
-                              cell_w - 8)
-        if size < 17:
-            errors.append(f"strip: figure {fig['display']!r} shrinks to "
-                          f"{size}pt in its cell")
-        if words.width(_draw, fig["caption"], fnt("strip_cap")) > cell_w - 4:
-            errors.append(f"strip: caption {fig['caption']!r} too wide")
+    _check_fit(errors, "map title", content["map_title"], "map_title",
+               190, 1)
+    _check_fit(errors, "map caption", content["map_caption"], "map_cap",
+               220, 1)
 
     if errors:
         raise GateError("GATE FAILED:\n- " + "\n- ".join(errors))
@@ -324,7 +306,7 @@ def report_lines(content, stats):
         f"sport={stats['sport']} (cap {SPORT_CAP})",
         f"scope line printed: {scope_line(stats)!r}",
         f"tally line printed: {tally_line(stats)!r}",
-        f"strip figures={len(content['strip'])} "
+        f"map pins={stats['illustrated']} "
         f"datecheck items={len(content['datecheck'])}",
         "geometry: bands sum to 1024; hero/card/brief grids close exactly",
     ]
